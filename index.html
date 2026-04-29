@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía Visual del Proyecto — Wrobit</title>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=IBM+Plex+Sans+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cel:#44BCF9;--fuc:#E63289;--mar:#060036;--amb:#FFDC00;
+  --pur:#7B4FA0;--vrd:#059669;--bg:#ededed;--wh:#fff;
+  --word-blue:#2B579A;--word-bg:#F3F2F1;--word-tab:#E1DFDD;
+  --sh:0 4px 20px rgba(0,0,0,0.10);
+}
+body{font-family:'IBM Plex Sans Condensed',sans-serif;background:var(--bg);color:var(--mar);min-height:100vh}
+
+/* ── HEADER ── */
+.site-header{
+  background:linear-gradient(135deg,var(--cel),var(--fuc));
+  color:#fff;padding:16px 22px;
+  display:flex;align-items:center;gap:14px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
+}
+.site-header .logo{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.site-header h1{font-family:'Russo One',sans-serif;font-size:18px;line-height:1.1}
+.site-header p{font-size:12px;opacity:.85;margin-top:2px}
+.badge{margin-left:auto;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:99px;padding:5px 14px;font-family:'Russo One',sans-serif;font-size:11px;letter-spacing:.7px;flex-shrink:0}
+
+/* ── PROGRESS / NAV ── */
+.outer{max-width:1080px;margin:0 auto;padding:24px 16px 60px}
+.progress-bar{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.prog-step{
+  flex:1;min-width:140px;
+  background:var(--wh);border:2px solid #ddd;
+  border-radius:12px;padding:11px 14px;
+  cursor:pointer;transition:all .2s;text-align:center;
+}
+.prog-step:hover{border-color:var(--cel);transform:translateY(-2px)}
+.prog-step.active{background:var(--mar);border-color:var(--mar);color:#fff}
+.prog-step.done{background:var(--vrd);border-color:var(--vrd);color:#fff}
+.prog-num{font-family:'Russo One',sans-serif;font-size:16px;display:block;margin-bottom:2px}
+.prog-label{font-size:11px;font-weight:700;letter-spacing:.4px}
+
+/* ── PAGE INTRO ── */
+.page-intro{background:var(--wh);border-radius:16px;padding:18px 22px;box-shadow:var(--sh);margin-bottom:18px;display:flex;align-items:center;gap:14px}
+.pi-icon{width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,var(--cel),var(--fuc));color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;font-family:'Russo One',sans-serif}
+.pi-text h2{font-family:'Russo One',sans-serif;font-size:18px}
+.pi-text p{font-size:13px;color:#666;line-height:1.5;margin-top:3px}
+
+/* ── SECTION ── */
+.section{display:none;animation:fadeIn .3s ease}
+.section.show{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── STEP CARD ── */
+.step-card{
+  background:var(--wh);border-radius:16px;
+  padding:0;margin-bottom:18px;
+  box-shadow:var(--sh);overflow:hidden;
+}
+.step-head{
+  background:linear-gradient(135deg,var(--cel),#5ac9fc);
+  color:#fff;padding:14px 22px;
+  display:flex;align-items:center;gap:12px;
+}
+.step-head.fuc{background:linear-gradient(135deg,var(--fuc),#f04ea0)}
+.step-head.pur{background:linear-gradient(135deg,var(--pur),#9264bf)}
+.step-head.vrd{background:linear-gradient(135deg,var(--vrd),#0ea672)}
+.step-head .num{
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Russo One',sans-serif;font-size:16px;
+  flex-shrink:0;border:2px solid rgba(255,255,255,.4);
+}
+.step-head h3{font-family:'Russo One',sans-serif;font-size:16px;line-height:1.1}
+.step-head p{font-size:12px;opacity:.85;margin-top:2px}
+.step-body{padding:18px 22px}
+
+/* ── WORD SIMULATION ── */
+.word-app{
+  background:var(--word-bg);
+  border:1px solid #ccc;border-radius:8px;
+  overflow:hidden;font-family:'Segoe UI',Tahoma,sans-serif;
+  font-size:12px;color:#222;
+  margin:14px 0;box-shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+.word-titlebar{
+  background:var(--word-blue);color:#fff;
+  padding:6px 12px;font-size:11px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.word-titlebar .actions{display:flex;gap:6px}
+.word-titlebar .actions span{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.3);display:inline-block}
+
+/* Tabs */
+.word-tabs{
+  background:var(--word-bg);
+  display:flex;align-items:center;
+  border-bottom:1px solid #d0cfcf;
+  padding:0 8px;
+  gap:0;overflow-x:auto;scrollbar-width:thin;
+}
+.word-tab{
+  padding:7px 14px;font-size:11px;font-weight:600;
+  border-bottom:3px solid transparent;
+  cursor:pointer;color:#444;white-space:nowrap;
+  transition:all .15s;
+}
+.word-tab:hover{background:#fff}
+.word-tab.active{
+  background:#fff;color:var(--word-blue);
+  border-bottom-color:var(--word-blue);
+  font-weight:700;
+}
+
+/* Ribbon */
+.word-ribbon{
+  background:#fff;
+  padding:8px 10px;
+  display:flex;gap:0;
+  border-bottom:1px solid #d0cfcf;
+  min-height:78px;overflow-x:auto;
+  scrollbar-width:thin;
+}
+.ribbon-group{
+  display:flex;flex-direction:column;align-items:center;
+  padding:0 10px;border-right:1px solid #e0e0e0;
+  flex-shrink:0;min-width:70px;
+}
+.ribbon-group:last-child{border-right:none}
+.ribbon-group-content{display:flex;align-items:flex-start;gap:4px;flex:1;padding:2px 0 4px;flex-wrap:wrap;justify-content:center;max-width:200px}
+.ribbon-group-label{
+  font-size:9px;color:#666;
+  text-align:center;
+  border-top:1px solid #f0f0f0;
+  padding-top:3px;margin-top:auto;
+  width:100%;
+}
+.btn-ribbon{
+  background:#fff;border:1px solid transparent;
+  border-radius:3px;cursor:pointer;
+  padding:4px 6px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  min-width:32px;font-size:10px;color:#222;
+  transition:all .15s;font-family:inherit;
+  position:relative;
+}
+.btn-ribbon:hover{background:#eaf3fc;border-color:#b8dff8}
+.btn-ribbon.big{padding:4px 8px;min-width:44px}
+.btn-ribbon .icon{font-size:18px;line-height:1;margin-bottom:2px}
+.btn-ribbon .icon.small{font-size:14px}
+.btn-ribbon .label{font-size:9px;line-height:1.1;text-align:center}
+.btn-ribbon .lbl-2{font-size:9px;line-height:1.1;text-align:center;max-width:55px}
+.btn-ribbon.row{flex-direction:row;gap:5px;padding:3px 7px}
+
+/* Highlight pulsante */
+.btn-ribbon.highlight,.word-tab.highlight{
+  animation:pulse 1.4s infinite;
+  z-index:5;position:relative;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(230,50,137,.6),inset 0 0 0 2px var(--fuc);background:#FFE8F1}
+  50%{box-shadow:0 0 0 8px rgba(230,50,137,0);inset 0 0 0 2px var(--fuc)}
+}
+.word-tab.highlight{
+  background:#FFE8F1!important;color:var(--fuc)!important;
+  border-bottom-color:var(--fuc)!important;
+  animation:pulse 1.4s infinite;
+}
+
+/* Arrow pointer animado */
+.arrow-pointer{
+  position:absolute;
+  font-size:32px;color:var(--fuc);
+  animation:bounceArrow .8s ease-in-out infinite alternate;
+  pointer-events:none;z-index:6;
+  filter:drop-shadow(0 2px 4px rgba(230,50,137,.5));
+}
+@keyframes bounceArrow{from{transform:translateY(0)}to{transform:translateY(-6px)}}
+
+/* Document area */
+.word-doc{
+  background:#fff;padding:24px 30px;
+  min-height:240px;
+  font-family:'Times New Roman',serif;
+  font-size:13px;line-height:1.6;color:#222;
+  margin:14px;border:1px solid #e0e0e0;
+  box-shadow:0 1px 3px rgba(0,0,0,0.05);
+  position:relative;
+}
+.word-doc.has-border{border:3px double var(--cel);padding:20px 26px}
+.word-doc.with-pgborder::before{
+  content:'';position:absolute;inset:8px;
+  border:2px dashed var(--cel);border-radius:4px;pointer-events:none;
+}
+
+.docline{margin:6px 0}
+.center{text-align:center}
+
+/* Steps list */
+.steps-list{
+  background:#FFFBE6;border:2px solid var(--amb);
+  border-radius:12px;padding:16px 20px;margin:14px 0;
+}
+.steps-list .sl-title{
+  font-family:'Russo One',sans-serif;font-size:13px;
+  color:var(--mar);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.steps-list .sl-title .ico{
+  background:var(--amb);width:26px;height:26px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:14px;
+}
+.steps-list ol{padding-left:30px}
+.steps-list ol li{font-size:14px;line-height:1.7;margin:5px 0;font-weight:500}
+.steps-list ol li b{color:var(--fuc);font-weight:700}
+.steps-list ol li .word-key{
+  background:#fff;border:1.5px solid var(--cel);color:var(--word-blue);
+  padding:1px 7px;border-radius:4px;font-size:12px;font-weight:700;
+  font-family:'Segoe UI',sans-serif;display:inline-block;
+}
+
+/* Try it button */
+.try-section{
+  background:linear-gradient(135deg,#F0FDF4,#E8FAF0);
+  border:2px solid #86efac;border-radius:12px;
+  padding:14px 18px;margin:14px 0;text-align:center;
+}
+.try-section h4{font-family:'Russo One',sans-serif;font-size:14px;color:var(--vrd);margin-bottom:6px}
+.try-section p{font-size:13px;color:#1e6b4d;line-height:1.5;margin-bottom:8px}
+.btn-try{
+  background:var(--vrd);border:none;color:#fff;
+  padding:8px 22px;border-radius:99px;
+  font-family:'Russo One',sans-serif;font-size:12px;
+  cursor:pointer;transition:transform .15s;letter-spacing:.4px;
+}
+.btn-try:hover{transform:translateY(-1px);background:#047857}
+
+/* TIP */
+.tip-wrobit{
+  background:var(--mar);color:#fff;
+  border-radius:12px;padding:14px 18px;margin:14px 0;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.tip-wrobit .ico{
+  background:var(--cel);width:40px;height:40px;
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+}
+.tip-wrobit h5{font-family:'Russo One',sans-serif;font-size:13px;color:var(--cel);margin-bottom:4px}
+.tip-wrobit p{font-size:13px;line-height:1.5}
+
+/* Navigation buttons */
+.nav-buttons{display:flex;gap:10px;justify-content:space-between;margin-top:24px}
+.btn-nav{
+  background:var(--wh);border:2px solid #ddd;
+  border-radius:99px;padding:10px 22px;
+  font-family:'Russo One',sans-serif;font-size:12px;
+  cursor:pointer;transition:all .15s;
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--mar);
+}
+.btn-nav:hover:not(:disabled){border-color:var(--cel);color:var(--cel)}
+.btn-nav:disabled{opacity:.4;cursor:not-allowed}
+.btn-nav.primary{
+  background:linear-gradient(135deg,var(--cel),var(--fuc));
+  color:#fff;border-color:transparent;
+  box-shadow:0 4px 12px rgba(230,50,137,.25);
+}
+.btn-nav.primary:hover{transform:translateY(-1px)}
+
+/* Page selector preview */
+.proj-preview{
+  background:var(--wh);border-radius:16px;
+  padding:20px;margin-bottom:18px;box-shadow:var(--sh);
+}
+.proj-preview h3{font-family:'Russo One',sans-serif;font-size:15px;color:var(--mar);margin-bottom:12px}
+.preview-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:600px){.preview-grid{grid-template-columns:repeat(4,1fr)}}
+.prev-card{
+  background:linear-gradient(135deg,#fafbff,#f0f4f9);
+  border:2px solid #e0e0e0;border-radius:12px;
+  padding:12px 8px;text-align:center;cursor:pointer;
+  transition:all .2s;
+}
+.prev-card:hover{border-color:var(--cel);transform:translateY(-3px)}
+.prev-card .pc-emoji{font-size:32px;display:block;margin-bottom:4px}
+.prev-card h4{font-family:'Russo One',sans-serif;font-size:11px;color:var(--mar);margin-bottom:3px}
+.prev-card p{font-size:10px;color:#888;line-height:1.3}
+.prev-card .pc-tools{font-size:9px;color:var(--cel);font-weight:700;margin-top:4px;text-transform:uppercase;letter-spacing:.3px}
+
+/* Visual tabla preview */
+.tabla-mock{border-collapse:collapse;width:100%;max-width:480px;margin:8px auto;font-size:11px}
+.tabla-mock td,.tabla-mock th{border:1px solid #c0c0c0;padding:5px 8px;text-align:center}
+.tabla-mock th{background:var(--cel);color:#fff;font-weight:700}
+.tabla-mock tr:nth-child(even) td{background:#f5f5f5}
+
+/* Columnas mock */
+.col-mock{display:grid;grid-template-columns:1fr 1fr;gap:18px;font-size:11px;line-height:1.5;background:#fff;padding:12px;border:1px solid #e0e0e0;border-radius:6px;margin:8px 0}
+.col-mock ul{list-style:none}
+.col-mock ul li{padding:2px 0;font-size:11px}
+
+@media(max-width:560px){
+  .word-ribbon{flex-wrap:nowrap}
+  .word-doc{padding:16px}
+  .preview-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="logo">&#x1F916;</div>
+  <div>
+    <h1>Gu&iacute;a Visual del Proyecto</h1>
+    <p>Recurso 27 &middot; C&oacute;mo crear tu Gu&iacute;a de Supervivencia Escolar en Word</p>
+  </div>
+  <div class="badge">RECURSO 27</div>
+</div>
+
+<div class="outer">
+
+  <!-- PROGRESS NAV -->
+  <div class="progress-bar" id="progressBar">
+    <div class="prog-step active" data-step="0" onclick="goToStep(0)">
+      <span class="prog-num">🏠</span>
+      <span class="prog-label">INICIO</span>
+    </div>
+    <div class="prog-step" data-step="1" onclick="goToStep(1)">
+      <span class="prog-num">1</span>
+      <span class="prog-label">PORTADA</span>
+    </div>
+    <div class="prog-step" data-step="2" onclick="goToStep(2)">
+      <span class="prog-num">2</span>
+      <span class="prog-label">HORARIO</span>
+    </div>
+    <div class="prog-step" data-step="3" onclick="goToStep(3)">
+      <span class="prog-num">3</span>
+      <span class="prog-label">TIPS</span>
+    </div>
+    <div class="prog-step" data-step="4" onclick="goToStep(4)">
+      <span class="prog-num">4</span>
+      <span class="prog-label">DATOS</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       STEP 0 — INTRO
+  ════════════════════════════════════════ -->
+  <div class="section show" id="sec-0">
+    <div class="page-intro">
+      <div class="pi-icon">📚</div>
+      <div class="pi-text">
+        <h2>¡Hola! Vamos a crear tu Guía de Supervivencia Escolar</h2>
+        <p>Un documento de 4 páginas en Word con tus mejores consejos para sobrevivir el año escolar. En esta guía visual te muestro PASO a PASO dónde está cada botón en Word.</p>
+      </div>
+    </div>
+
+    <div class="proj-preview">
+      <h3>📋 Las 4 páginas que vas a crear</h3>
+      <div class="preview-grid">
+        <div class="prev-card" onclick="goToStep(1)">
+          <span class="pc-emoji">📕</span>
+          <h4>PÁGINA 1</h4>
+          <p>Portada con título, imagen y borde</p>
+          <div class="pc-tools">Formato + Imagen + Bordes</div>
+        </div>
+        <div class="prev-card" onclick="goToStep(2)">
+          <span class="pc-emoji">📅</span>
+          <h4>PÁGINA 2</h4>
+          <p>Tu horario semanal en una tabla</p>
+          <div class="pc-tools">Tablas + Colores</div>
+        </div>
+        <div class="prev-card" onclick="goToStep(3)">
+          <span class="pc-emoji">💡</span>
+          <h4>PÁGINA 3</h4>
+          <p>Tus tips en 2 columnas con viñetas</p>
+          <div class="pc-tools">Columnas + Viñetas</div>
+        </div>
+        <div class="prev-card" onclick="goToStep(4)">
+          <span class="pc-emoji">✨</span>
+          <h4>PÁGINA 4</h4>
+          <p>Datos curiosos con imágenes</p>
+          <div class="pc-tools">Imágenes + Bordes</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-wrobit">
+      <div class="ico">🤖</div>
+      <div>
+        <h5>EMPECEMOS</h5>
+        <p>Voy a mostrarte la pantalla de Word como tú la verás en tu computadora. Cuando aparezca una flecha rosa <strong style="color:var(--fuc)">▼</strong>, ese es el botón que tienes que presionar. ¡Vamos al primer paso!</p>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-nav" disabled>← Atrás</button>
+      <button class="btn-nav primary" onclick="goToStep(1)">Empezar página 1: Portada →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       STEP 1 — PORTADA (EXTENDIDA)
+  ════════════════════════════════════════ -->
+  <div class="section" id="sec-1">
+    <div class="page-intro">
+      <div class="pi-icon" style="background:linear-gradient(135deg,#E63289,#f04ea0)">1</div>
+      <div class="pi-text">
+        <h2>Página 1: La Portada</h2>
+        <p>La portada lleva los datos completos de tu proyecto. Vas a crear: nombre de la escuela, ciudad, logo (¡puedes subir una imagen!), asignatura, tema, integrantes, profesor y fecha. Todo centrado y con un borde decorativo.</p>
+      </div>
+    </div>
+
+    <!-- VISTA PREVIA DE CÓMO QUEDARÁ -->
+    <div class="step-card">
+      <div class="step-head pur">
+        <div class="num">👀</div>
+        <div>
+          <h3>Así se verá tu portada terminada</h3>
+          <p>Mira cómo va a quedar antes de empezar</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="word-doc with-pgborder" style="font-family:'Times New Roman',serif;font-size:11px;line-height:1.6;padding:30px 40px;min-height:500px;text-align:center">
+          <div style="font-size:13px;font-weight:700;letter-spacing:.5px">ESCUELA PRIMARIA EL UNIVERSO BRILLA</div>
+          <div style="font-size:11px;font-style:italic;margin-bottom:16px">Quinta Barriada, Ciudad de Panamá</div>
+
+          <div style="display:inline-block;width:120px;height:90px;background:linear-gradient(135deg,#eaf7ff,#fff0f7);border:2px solid var(--cel);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:38px;margin:14px 0">🏫</div>
+          <div style="font-size:9px;font-style:italic;color:#888;margin-bottom:18px">[Logo o imagen de la escuela]</div>
+
+          <div style="margin-top:16px;font-weight:700">ASIGNATURA:</div>
+          <div style="text-decoration:underline;margin-bottom:14px">Ciencias Naturales</div>
+
+          <div style="font-weight:700">TEMA:</div>
+          <div style="text-decoration:underline;font-weight:700;margin-bottom:14px">El Sistema Solar y sus Planetas</div>
+
+          <div style="font-weight:700">INTEGRANTES:</div>
+          <div style="text-decoration:underline">Valeria Ramos / 5° Grado B</div>
+          <div style="text-decoration:underline;margin-bottom:14px">Carlos Medina / 5° Grado B</div>
+
+          <div style="font-weight:700">PROFESOR(A):</div>
+          <div style="text-decoration:underline;margin-bottom:14px">Lcda. María Torres</div>
+
+          <div style="font-weight:700">FECHA:</div>
+          <div style="text-decoration:underline">Panamá, julio de 2026</div>
+        </div>
+        <p style="font-size:12px;color:#888;margin-top:10px;text-align:center"><b>Esto es lo que vas a construir paso a paso 👇</b></p>
+      </div>
+    </div>
+
+    <!-- TASK 1.1: ENCABEZADO ESCUELA -->
+    <div class="step-card">
+      <div class="step-head fuc">
+        <div class="num">1</div>
+        <div>
+          <h3>Escribir el nombre de la escuela y ciudad</h3>
+          <p>Va al inicio de la página, todo centrado</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p style="font-size:14px;line-height:1.6;margin-bottom:10px">El <strong>nombre de la escuela</strong> va en MAYÚSCULAS y en negrita. Debajo va el distrito y la ciudad con letra normal.</p>
+
+        <div class="word-app">
+          <div class="word-titlebar">
+            <span>📄 Mi Guía - Word</span>
+            <div class="actions"><span></span><span></span><span></span></div>
+          </div>
+          <div class="word-tabs">
+            <div class="word-tab active highlight">Inicio</div>
+            <div class="word-tab">Insertar</div>
+            <div class="word-tab">Diseño</div>
+            <div class="word-tab">Diseño de página</div>
+          </div>
+          <div class="word-ribbon">
+            <div class="ribbon-group" style="position:relative">
+              <div class="ribbon-group-content" style="max-width:180px">
+                <button class="btn-ribbon row highlight"><b>N</b></button>
+                <button class="btn-ribbon row"><i>K</i></button>
+                <button class="btn-ribbon row"><u>S</u></button>
+                <span class="arrow-pointer" style="top:38px;left:8px">⬆</span>
+              </div>
+              <div class="ribbon-group-label">Fuente</div>
+            </div>
+            <div class="ribbon-group" style="position:relative">
+              <div class="ribbon-group-content" style="max-width:160px">
+                <button class="btn-ribbon row">≡</button>
+                <button class="btn-ribbon row highlight">≡</button>
+                <button class="btn-ribbon row">≡</button>
+                <span class="arrow-pointer" style="top:38px;left:50px">⬆</span>
+              </div>
+              <div class="ribbon-group-label">Párrafo</div>
+            </div>
+          </div>
+          <div class="word-doc">
+            <div class="docline center" style="font-size:14px;font-weight:700;letter-spacing:.5px">ESCUELA PRIMARIA EL UNIVERSO BRILLA</div>
+            <div class="docline center" style="font-size:12px;font-style:italic">Quinta Barriada, Ciudad de Panamá</div>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li>Escribe el nombre de la escuela en <b>MAYÚSCULAS</b></li>
+            <li>Selecciona el texto y presiona <span class="word-key">N</span> para ponerlo en negrita</li>
+            <li>En el grupo <b>Párrafo</b>, presiona el botón de <b>Centrar</b></li>
+            <li>Presiona <span class="word-key">Enter</span> y escribe el <b>distrito y ciudad</b> (también centrado)</li>
+            <li>Pon el cursor en la línea de la ciudad y presiona <span class="word-key">K</span> para ponerla en cursiva</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 1.2: SUBIR LOGO -->
+    <div class="step-card">
+      <div class="step-head">
+        <div class="num">2</div>
+        <div>
+          <h3>Insertar el logo de tu escuela</h3>
+          <p>¡Puedes subir una imagen real desde tu computadora!</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p style="font-size:14px;line-height:1.6;margin-bottom:10px">El logo va <b>centrado</b> debajo del nombre de la escuela. Si tienes el escudo de tu escuela en una imagen, súbela. Si no, puedes usar un dibujo o icono relacionado.</p>
+
+        <div class="word-app">
+          <div class="word-titlebar">
+            <span>📄 Mi Guía - Word</span>
+            <div class="actions"><span></span><span></span><span></span></div>
+          </div>
+          <div class="word-tabs">
+            <div class="word-tab">Inicio</div>
+            <div class="word-tab active highlight">Insertar</div>
+            <div class="word-tab">Diseño</div>
+            <div class="word-tab">Diseño de página</div>
+          </div>
+          <div class="word-ribbon">
+            <div class="ribbon-group">
+              <div class="ribbon-group-content">
+                <button class="btn-ribbon big"><span class="icon">📄</span><span class="label">Página</span></button>
+              </div>
+              <div class="ribbon-group-label">Páginas</div>
+            </div>
+            <div class="ribbon-group" style="position:relative">
+              <div class="ribbon-group-content">
+                <button class="btn-ribbon big highlight"><span class="icon">🖼️</span><span class="label">Imágenes</span></button>
+                <button class="btn-ribbon big"><span class="icon">🌐</span><span class="lbl-2">En línea</span></button>
+                <button class="btn-ribbon big"><span class="icon">▱</span><span class="label">Formas</span></button>
+                <span class="arrow-pointer" style="top:80px;left:14px">⬆</span>
+              </div>
+              <div class="ribbon-group-label">Ilustraciones</div>
+            </div>
+          </div>
+          <div class="word-doc">
+            <div class="docline center" style="font-size:11px;font-weight:700">ESCUELA PRIMARIA EL UNIVERSO BRILLA</div>
+            <div class="docline center" style="font-size:10px;font-style:italic;margin-bottom:10px">Quinta Barriada, Ciudad de Panamá</div>
+            <div style="text-align:center;margin:14px 0">
+              <div style="display:inline-block;width:130px;height:100px;background:linear-gradient(135deg,#fff0f7,#e8f7ff);border:2px solid var(--cel);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:42px">🏫</div>
+              <div style="font-size:9px;font-style:italic;color:#888;margin-top:4px">[Logo de tu escuela]</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li>Pon el cursor en una <b>línea nueva</b> debajo de la ciudad</li>
+            <li>Haz clic en la pestaña <span class="word-key">Insertar</span></li>
+            <li>Haz clic en <span class="word-key">🖼️ Imágenes</span> (si tienes el logo guardado en tu compu) o en <span class="word-key">🌐 En línea</span> (para buscar en internet)</li>
+            <li>Selecciona el archivo de imagen y presiona <b>Insertar</b></li>
+            <li>Arrastra las <b>esquinas</b> para hacerla del tamaño correcto (no muy grande)</li>
+            <li>Con la imagen seleccionada, presiona el botón <b>Centrar</b> (en pestaña Inicio)</li>
+          </ol>
+        </div>
+
+        <div class="tip-wrobit">
+          <div class="ico">💡</div>
+          <div>
+            <h5>TIP DE WROBIT</h5>
+            <p>¿No tienes el logo de tu escuela? Puedes pedírselo a tu profesor por correo, sacarle foto al escudo del uniforme, o usar una imagen relacionada con el tema (libros, mochila, ciencia, etc).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 1.3: ASIGNATURA Y TEMA -->
+    <div class="step-card">
+      <div class="step-head">
+        <div class="num">3</div>
+        <div>
+          <h3>Escribir la asignatura y el tema</h3>
+          <p>Los datos del proyecto en sí</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p style="font-size:14px;line-height:1.6;margin-bottom:10px">Después del logo escribe la <b>ASIGNATURA</b> y el <b>TEMA</b>. La palabra "ASIGNATURA:" va en negrita y debajo el nombre de la materia subrayado. Lo mismo con "TEMA:" y el nombre del tema.</p>
+
+        <div class="word-doc" style="margin:0 0 14px 0;border-radius:8px">
+          <div style="font-size:11px;font-weight:700;text-align:center">ESCUELA PRIMARIA EL UNIVERSO BRILLA</div>
+          <div style="font-size:10px;font-style:italic;text-align:center;margin-bottom:8px">Quinta Barriada, Ciudad de Panamá</div>
+          <div style="text-align:center;margin:8px 0;font-size:32px">🏫</div>
+          <div style="margin-top:14px;text-align:center">
+            <div style="font-weight:700;font-size:12px">ASIGNATURA:</div>
+            <div style="text-decoration:underline;font-size:12px;margin-bottom:10px">Ciencias Naturales</div>
+            <div style="font-weight:700;font-size:12px">TEMA:</div>
+            <div style="text-decoration:underline;font-weight:700;font-size:13px">El Sistema Solar y sus Planetas</div>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li>Escribe <b>ASIGNATURA:</b> en mayúsculas y presiona <span class="word-key">N</span> para negrita</li>
+            <li>Presiona <span class="word-key">Enter</span> y escribe el nombre de la materia</li>
+            <li>Selecciona ese nombre y presiona <span class="word-key">S</span> para <b>subrayarlo</b></li>
+            <li>Repite con <b>TEMA:</b> y el nombre del tema</li>
+            <li>El <b>tema</b> puede ir más grande (tamaño 14-16) y en negrita para que destaque</li>
+            <li>Todo debe estar centrado</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 1.4: INTEGRANTES Y PROFESOR -->
+    <div class="step-card">
+      <div class="step-head vrd">
+        <div class="num">4</div>
+        <div>
+          <h3>Agregar integrantes, profesor y fecha</h3>
+          <p>Los datos de quién hizo el proyecto</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p style="font-size:14px;line-height:1.6;margin-bottom:10px">Sigue el mismo formato: <b>INTEGRANTES:</b> en negrita, debajo los nombres con grado, todo subrayado. Si trabajas en pareja, pon ambos nombres en líneas separadas.</p>
+
+        <div class="word-doc" style="margin:0 0 14px 0;border-radius:8px">
+          <div style="font-size:11px;text-align:center;color:#aaa">[Encabezado, logo, asignatura y tema]</div>
+          <div style="border-top:1px dashed #ccc;margin:10px 0;padding-top:10px;text-align:center">
+            <div style="font-weight:700;font-size:12px">INTEGRANTES:</div>
+            <div style="text-decoration:underline;font-size:11px">Valeria Ramos / 5° Grado B</div>
+            <div style="text-decoration:underline;font-size:11px;margin-bottom:10px">Carlos Medina / 5° Grado B</div>
+
+            <div style="font-weight:700;font-size:12px">PROFESOR(A):</div>
+            <div style="text-decoration:underline;font-size:11px;margin-bottom:10px">Lcda. María Torres</div>
+
+            <div style="font-weight:700;font-size:12px">FECHA:</div>
+            <div style="text-decoration:underline;font-size:11px">Panamá, julio de 2026</div>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li>Escribe <b>INTEGRANTES:</b> en negrita (o <b>INTEGRANTE:</b> si trabajas solo)</li>
+            <li>En la siguiente línea: <b>Tu nombre completo / Tu grado</b> (ej: "Ana López / 5° A")</li>
+            <li>Si tienes compañero, agrégalo en otra línea con su nombre y grado</li>
+            <li>Después <b>PROFESOR(A):</b> y abajo el nombre con su título (Lcda., Prof., Mtro.)</li>
+            <li>Al final <b>FECHA:</b> y la ciudad + mes + año (ej: "Panamá, julio de 2026")</li>
+            <li>Selecciona los datos y subráyalos con <span class="word-key">S</span></li>
+          </ol>
+        </div>
+
+        <div class="tip-wrobit">
+          <div class="ico">📋</div>
+          <div>
+            <h5>FORMATO DEL TÍTULO DE TU PROFESOR</h5>
+            <p><b>Lcda.</b> = Licenciada · <b>Lcdo.</b> = Licenciado · <b>Prof.</b> = Profesor/a · <b>Mtra./Mtro.</b> = Maestra/Maestro · <b>Ing.</b> = Ingeniero/a</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 1.5: BORDE DE PÁGINA -->
+    <div class="step-card">
+      <div class="step-head pur">
+        <div class="num">5</div>
+        <div>
+          <h3>Poner un borde decorativo</h3>
+          <p>El toque final que hace que tu portada se vea profesional</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p style="font-size:14px;line-height:1.6;margin-bottom:10px">Un borde alrededor de toda la hoja le da el toque profesional. Tienes que ir a la pestaña <strong>Diseño</strong>.</p>
+
+        <div class="word-app">
+          <div class="word-titlebar">
+            <span>📄 Mi Guía - Word</span>
+            <div class="actions"><span></span><span></span><span></span></div>
+          </div>
+          <div class="word-tabs">
+            <div class="word-tab">Inicio</div>
+            <div class="word-tab">Insertar</div>
+            <div class="word-tab active highlight">Diseño</div>
+            <div class="word-tab">Diseño de página</div>
+          </div>
+          <div class="word-ribbon">
+            <div class="ribbon-group">
+              <div class="ribbon-group-content">
+                <button class="btn-ribbon big"><span class="icon">🎨</span><span class="label">Temas</span></button>
+              </div>
+              <div class="ribbon-group-label">Formato</div>
+            </div>
+            <div class="ribbon-group" style="position:relative">
+              <div class="ribbon-group-content">
+                <button class="btn-ribbon big"><span class="icon">💧</span><span class="lbl-2">Marca de agua</span></button>
+                <button class="btn-ribbon big"><span class="icon">🎨</span><span class="lbl-2">Color de página</span></button>
+                <button class="btn-ribbon big highlight"><span class="icon">⬚</span><span class="lbl-2">Bordes de página</span></button>
+                <span class="arrow-pointer" style="top:80px;right:18px">⬆</span>
+              </div>
+              <div class="ribbon-group-label">Fondo de página</div>
+            </div>
+          </div>
+          <div class="word-doc with-pgborder">
+            <div class="docline center" style="font-size:10px;font-weight:700;margin-top:14px">ESCUELA PRIMARIA EL UNIVERSO BRILLA</div>
+            <div class="docline center" style="font-size:9px;font-style:italic">Quinta Barriada, Ciudad de Panamá</div>
+            <div style="text-align:center;margin:8px 0;font-size:30px">🏫</div>
+            <div class="docline center" style="font-size:9px"><b>TEMA:</b> El Sistema Solar</div>
+            <div class="docline center" style="font-size:9px;color:#888">Valeria Ramos · 5° B</div>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li>Haz clic en la pestaña <span class="word-key">Diseño</span></li>
+            <li>Busca el botón <span class="word-key">Bordes de página</span> (a la derecha)</li>
+            <li>Se abre una <b>ventana nueva</b>. En "Valor" elige <b>Cuadro</b></li>
+            <li>En "Estilo" elige una <b>línea bonita</b>: doble, punteada, ondulada</li>
+            <li>En "Color" elige el color que combine con tu portada</li>
+            <li>En "Aplicar a:" selecciona <b>Esta sección</b> (para que solo salga en la portada)</li>
+            <li>Presiona <span class="word-key">Aceptar</span></li>
+          </ol>
+        </div>
+
+        <div class="tip-wrobit">
+          <div class="ico">💡</div>
+          <div>
+            <h5>TIP DE WROBIT</h5>
+            <p>Si pones "Aplicar a: <b>Todo el documento</b>", el borde sale en TODAS las hojas. Para que solo aparezca en la portada, elige <b>"Esta sección"</b>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST FINAL DE LA PORTADA -->
+    <div class="step-card">
+      <div class="step-head" style="background:linear-gradient(135deg,#059669,#10B981)">
+        <div class="num">✓</div>
+        <div>
+          <h3>Checklist de tu portada</h3>
+          <p>Revisa que tengas todo antes de pasar a la página 2</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div style="background:#F0FDF4;border:2px solid #86efac;border-radius:12px;padding:14px 18px">
+          <p style="font-size:13px;line-height:2;color:var(--mar)">
+            ☐ Nombre completo de la escuela en <b>MAYÚSCULAS</b> y centrado<br>
+            ☐ Distrito y ciudad debajo, en cursiva<br>
+            ☐ <b>Logo o imagen</b> de la escuela centrada<br>
+            ☐ <b>ASIGNATURA:</b> y nombre de la materia<br>
+            ☐ <b>TEMA:</b> del proyecto (más grande y en negrita)<br>
+            ☐ <b>INTEGRANTE(S):</b> con nombre completo y grado<br>
+            ☐ <b>PROFESOR(A):</b> con su título (Lcda., Prof., etc.)<br>
+            ☐ <b>FECHA:</b> con ciudad, mes y año<br>
+            ☐ <b>Borde decorativo</b> alrededor de la página
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-nav" onclick="goToStep(0)">← Inicio</button>
+      <button class="btn-nav primary" onclick="goToStep(2)">Siguiente: Página 2 (Horario) →</button>
+    </div>
+  </div>
+
+
+    <!-- ════════════════════════════════════════
+       STEP 2 — HORARIO
+  ════════════════════════════════════════ -->
+  <div class="section" id="sec-2">
+    <div class="page-intro">
+      <div class="pi-icon" style="background:linear-gradient(135deg,#44BCF9,#5ac9fc)">2</div>
+      <div class="pi-text">
+        <h2>Página 2: Tu Horario Semanal</h2>
+        <p>Vas a crear una tabla con los días de la semana y las materias. Aprenderás a darle formato bonito con colores.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2.1: CREAR TABLA -->
+    <div class="step-card">
+      <div class="step-head">
+        <div class="num">1</div>
+        <div>
+          <h3>Crear la tabla</h3>
+          <p>Una tabla de 6 columnas y 7 filas</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p style="font-size:14px;line-height:1.6;margin-bottom:10px">Necesitas <strong>6 columnas</strong> (Hora + 5 días) y <strong>7 filas</strong> (1 título + 6 horas).</p>
+
+        <div class="word-app">
+          <div class="word-titlebar">
+            <span>📄 Mi Guía - Word</span>
+            <div class="actions"><span></span><span></span><span></span></div>
+          </div>
+          <div class="word-tabs">
+            <div class="word-tab">Inicio</div>
+            <div class="word-tab active highlight">Insertar</div>
+            <div class="word-tab">Diseño</div>
+            <div class="word-tab">Diseño de página</div>
+          </div>
+          <div class="word-ribbon">
+            <div class="ribbon-group">
+              <div class="ribbon-group-content">
+                <button class="btn-ribbon big"><span class="icon">📄</span><span class="label">Página</span></button>
+              </div>
+              <div class="ribbon-group-label">Páginas</div>
+            </div>
+            <div class="ribbon-group" style="position:relative">
+              <div class="ribbon-group-content">
+                <button class="btn-ribbon big highlight"><span class="icon">⊞</span><span class="label">Tabla</span></button>
+                <span class="arrow-pointer" style="top:80px;left:14px">⬆</span>
+              </div>
+              <div class="ribbon-group-label">Tablas</div>
+            </div>
+            <div class="ribbon-group">
+              <div class="ribbon-group-content">
+                <button class="btn-ribbon big"><span class="icon">🖼️</span><span class="label">Imágenes</span></button>
+              </div>
+              <div class="ribbon-group-label">Ilustraciones</div>
+            </div>
+          </div>
+          <div class="word-doc">
+            <div style="font-size:14px;font-weight:700;text-align:center;margin-bottom:14px;color:var(--mar)">MI HORARIO SEMANAL</div>
+            <table class="tabla-mock">
+              <tr><th>Hora</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th></tr>
+              <tr><td>7:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>8:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>9:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li>Haz clic en la pestaña <span class="word-key">Insertar</span></li>
+            <li>Haz clic en el botón <span class="word-key">⊞ Tabla</span></li>
+            <li>Aparece una <b>cuadrícula</b>. Pasa el mouse para seleccionar <b>6 × 7</b></li>
+            <li>Haz clic y la tabla aparece automáticamente en tu hoja</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 2.2: LLENAR -->
+    <div class="step-card">
+      <div class="step-head">
+        <div class="num">2</div>
+        <div>
+          <h3>Llenar la tabla</h3>
+          <p>Escribe los días, las horas y tus materias</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p style="font-size:14px;line-height:1.6;margin-bottom:10px">Haz clic dentro de cada casilla y escribe. Para moverte de casilla, usa <strong>Tab</strong> o las flechas del teclado.</p>
+
+        <table class="tabla-mock" style="max-width:100%;font-size:12px">
+          <tr><th>Hora</th><th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th><th>Viernes</th></tr>
+          <tr><td><b>7:00</b></td><td>Español</td><td>Mate</td><td>Ciencias</td><td>Mate</td><td>Inglés</td></tr>
+          <tr><td><b>8:00</b></td><td>Mate</td><td>Inglés</td><td>Sociales</td><td>Religión</td><td>Mate</td></tr>
+          <tr><td><b>9:00</b></td><td colspan="5" style="background:#fff8e6;font-style:italic">RECREO</td></tr>
+          <tr><td><b>10:00</b></td><td>Inglés</td><td>Ciencias</td><td>Mate</td><td>Español</td><td>Sociales</td></tr>
+          <tr><td><b>11:00</b></td><td>Arte</td><td>Educ. Física</td><td>Música</td><td>Computación</td><td>Educ. Física</td></tr>
+        </table>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li>En la <b>primera fila</b> escribe: Hora, Lunes, Martes, Miércoles, Jueves, Viernes</li>
+            <li>En la <b>primera columna</b> pon las horas: 7:00, 8:00, 9:00, etc</li>
+            <li>Llena cada casilla con la <b>materia</b> que tienes ese día a esa hora</li>
+            <li>Si tienes recreo o no hay clase, escribe "Recreo" o déjalo vacío</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 2.3: FORMATO -->
+    <div class="step-card">
+      <div class="step-head pur">
+        <div class="num">3</div>
+        <div>
+          <h3>Darle color a la tabla</h3>
+          <p>Una tabla con color se ve mucho mejor</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p style="font-size:14px;line-height:1.6;margin-bottom:10px">Cuando haces clic dentro de una tabla, aparecen <strong>2 pestañas nuevas</strong>: "Diseño de tabla" y "Disposición". ¡Solo aparecen cuando estás dentro de una tabla!</p>
+
+        <div class="word-app">
+          <div class="word-titlebar">
+            <span>📄 Mi Guía - Word</span>
+            <div class="actions"><span></span><span></span><span></span></div>
+          </div>
+          <div class="word-tabs">
+            <div class="word-tab">Inicio</div>
+            <div class="word-tab">Insertar</div>
+            <div class="word-tab" style="color:#888">|</div>
+            <div class="word-tab" style="background:#fff3cc;color:#a87800;font-size:10px">▼ Herramientas de tabla</div>
+            <div class="word-tab active highlight">Diseño de tabla</div>
+            <div class="word-tab">Disposición</div>
+          </div>
+          <div class="word-ribbon">
+            <div class="ribbon-group" style="position:relative">
+              <div class="ribbon-group-content" style="max-width:280px">
+                <div style="display:flex;gap:3px">
+                  <div style="width:42px;height:32px;border:1.5px solid #ccc;border-radius:3px;background:linear-gradient(to bottom,#fff 50%,#f5f5f5 50%)"></div>
+                  <div style="width:42px;height:32px;border:1.5px solid var(--fuc);border-radius:3px;background:linear-gradient(to bottom,var(--cel) 30%,#f5f5f5 30%);animation:pulse 1.4s infinite"></div>
+                  <div style="width:42px;height:32px;border:1.5px solid #ccc;border-radius:3px;background:linear-gradient(to bottom,var(--vrd) 30%,#fff 30%)"></div>
+                  <div style="width:42px;height:32px;border:1.5px solid #ccc;border-radius:3px;background:linear-gradient(to bottom,var(--fuc) 30%,#fff 30%)"></div>
+                </div>
+                <span class="arrow-pointer" style="top:38px;left:55px">⬆</span>
+              </div>
+              <div class="ribbon-group-label">Estilos de tabla</div>
+            </div>
+            <div class="ribbon-group">
+              <div class="ribbon-group-content">
+                <button class="btn-ribbon big"><span class="icon">🎨</span><span class="lbl-2">Sombreado</span></button>
+                <button class="btn-ribbon big"><span class="icon">⬚</span><span class="lbl-2">Bordes</span></button>
+              </div>
+              <div class="ribbon-group-label">Formato</div>
+            </div>
+          </div>
+          <div class="word-doc">
+            <div style="font-size:13px;font-weight:700;text-align:center;margin-bottom:10px;color:var(--mar)">MI HORARIO SEMANAL</div>
+            <table class="tabla-mock">
+              <tr><th>Hora</th><th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th><th>Viernes</th></tr>
+              <tr><td>7:00</td><td>Español</td><td>Mate</td><td>Ciencias</td><td>Mate</td><td>Inglés</td></tr>
+              <tr><td>8:00</td><td>Mate</td><td>Inglés</td><td>Sociales</td><td>Religión</td><td>Mate</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li>Haz <b>clic dentro</b> de cualquier casilla de tu tabla</li>
+            <li>Aparece arriba la pestaña <span class="word-key">Diseño de tabla</span> — haz clic ahí</li>
+            <li>Verás los <b>Estilos de tabla</b>: muchas opciones con colores predefinidos</li>
+            <li>Haz clic en cualquier estilo y la tabla cambia automáticamente</li>
+            <li>Si quieres cambiar manualmente, selecciona la primera fila y presiona <span class="word-key">🎨 Sombreado</span> para elegir un color</li>
+          </ol>
+        </div>
+
+        <div class="tip-wrobit">
+          <div class="ico">💡</div>
+          <div>
+            <h5>TIP DE WROBIT</h5>
+            <p>Para que tu tabla quede bien centrada en la página: clic <b>derecho</b> sobre la tabla → <b>Propiedades de tabla</b> → en "Alineación" elige <b>Centro</b>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-nav" onclick="goToStep(1)">← Página 1</button>
+      <button class="btn-nav primary" onclick="goToStep(3)">Siguiente: Página 3 (Tips) →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       STEP 3 — TIPS EN COLUMNAS
+  ════════════════════════════════════════ -->
+  <div class="section" id="sec-3">
+    <div class="page-intro">
+      <div class="pi-icon" style="background:linear-gradient(135deg,#7B4FA0,#9264bf)">3</div>
+      <div class="pi-text">
+        <h2>Página 3: Tips en 2 columnas</h2>
+        <p>Tus mejores consejos escritos como una revista, en 2 columnas, con viñetas bonitas.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3.1: ESCRIBIR -->
+    <div class="step-card">
+      <div class="step-head">
+        <div class="num">1</div>
+        <div>
+          <h3>Escribir tus tips</h3>
+          <p>Primero el texto, después le damos formato</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p style="font-size:14px;line-height:1.6;margin-bottom:10px">Empieza escribiendo el título y luego tus tips, uno por línea. Trata de tener entre <strong>8 y 12 tips</strong>.</p>
+
+        <div class="word-doc" style="margin:14px 0;border-radius:8px">
+          <div style="font-size:14px;font-weight:700;text-align:center;color:var(--mar)">MIS 10 TIPS DE SUPERVIVENCIA</div>
+          <div style="font-size:11px;line-height:1.7;margin-top:10px;color:#333">
+            Lleva siempre un lápiz extra<br>
+            Repasa tus apuntes 5 minutos antes del examen<br>
+            Pon todos tus libros en la mochila la noche anterior<br>
+            Toma agua durante todo el día<br>
+            Pregunta cuando no entiendas algo<br>
+            Haz amigos en clase, no solo en el recreo<br>
+            Apunta las tareas en una agenda<br>
+            Duerme 8 horas todas las noches<br>
+            Desayuna bien antes de ir a la escuela<br>
+            Sé amable con todos
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li>Escribe primero el <b>título</b>: "MIS 10 TIPS DE SUPERVIVENCIA"</li>
+            <li>Presiona <span class="word-key">Enter</span> para bajar a la siguiente línea</li>
+            <li>Escribe tus tips, uno por línea (presiona Enter entre cada uno)</li>
+            <li>Trata de tener <b>8 a 12 tips</b> para que llene bien la hoja</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 3.2: VIÑETAS -->
+    <div class="step-card">
+      <div class="step-head fuc">
+        <div class="num">2</div>
+        <div>
+          <h3>Ponerle viñetas a la lista</h3>
+          <p>Esos puntitos al inicio de cada tip</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="word-app">
+          <div class="word-titlebar">
+            <span>📄 Mi Guía - Word</span>
+            <div class="actions"><span></span><span></span><span></span></div>
+          </div>
+          <div class="word-tabs">
+            <div class="word-tab active highlight">Inicio</div>
+            <div class="word-tab">Insertar</div>
+            <div class="word-tab">Diseño</div>
+            <div class="word-tab">Diseño de página</div>
+          </div>
+          <div class="word-ribbon">
+            <div class="ribbon-group">
+              <div class="ribbon-group-content">
+                <button class="btn-ribbon row"><b>N</b></button>
+                <button class="btn-ribbon row"><i>K</i></button>
+              </div>
+              <div class="ribbon-group-label">Fuente</div>
+            </div>
+            <div class="ribbon-group" style="position:relative">
+              <div class="ribbon-group-content" style="max-width:200px">
+                <button class="btn-ribbon row highlight" title="Viñetas">≡•</button>
+                <button class="btn-ribbon row" title="Numerada">1.≡</button>
+                <button class="btn-ribbon row" title="Multinivel">≡≡</button>
+                <button class="btn-ribbon row">⬛</button>
+                <button class="btn-ribbon row">≡</button>
+                <button class="btn-ribbon row">≡</button>
+                <span class="arrow-pointer" style="top:38px;left:8px">⬆</span>
+              </div>
+              <div class="ribbon-group-label">Párrafo</div>
+            </div>
+          </div>
+          <div class="word-doc">
+            <div style="font-size:13px;font-weight:700;text-align:center;color:var(--mar);margin-bottom:8px">MIS 10 TIPS DE SUPERVIVENCIA</div>
+            <ul style="list-style:none;padding-left:14px;font-size:11px;line-height:1.7;color:#333">
+              <li><span style="color:var(--fuc);font-weight:700">▸</span> Lleva siempre un lápiz extra</li>
+              <li><span style="color:var(--fuc);font-weight:700">▸</span> Repasa tus apuntes antes del examen</li>
+              <li><span style="color:var(--fuc);font-weight:700">▸</span> Toma agua durante todo el día</li>
+              <li><span style="color:var(--fuc);font-weight:700">▸</span> Pregunta cuando no entiendas algo</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li><b>Selecciona</b> todos tus tips con el mouse (sin el título)</li>
+            <li>En la pestaña <span class="word-key">Inicio</span> busca el grupo <b>Párrafo</b></li>
+            <li>Haz clic en el botón de <span class="word-key">≡• Viñetas</span></li>
+            <li>Para cambiar el tipo, haz clic en la <b>flechita pequeña ▾</b> al lado del botón</li>
+            <li>Elige la viñeta que más te guste: punto, flecha, palomita, estrella ⭐</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 3.3: COLUMNAS -->
+    <div class="step-card">
+      <div class="step-head pur">
+        <div class="num">3</div>
+        <div>
+          <h3>Dividir todo en 2 columnas</h3>
+          <p>El truco para que se vea como una revista</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p style="font-size:14px;line-height:1.6;margin-bottom:10px"><strong>¡Cuidado!</strong> No selecciones el título, solo los tips. Si seleccionas todo, hasta el título queda chiquito en una columna.</p>
+
+        <div class="word-app">
+          <div class="word-titlebar">
+            <span>📄 Mi Guía - Word</span>
+            <div class="actions"><span></span><span></span><span></span></div>
+          </div>
+          <div class="word-tabs">
+            <div class="word-tab">Inicio</div>
+            <div class="word-tab">Insertar</div>
+            <div class="word-tab">Diseño</div>
+            <div class="word-tab active highlight">Diseño de página</div>
+          </div>
+          <div class="word-ribbon">
+            <div class="ribbon-group" style="position:relative">
+              <div class="ribbon-group-content" style="max-width:240px">
+                <button class="btn-ribbon big"><span class="icon">📐</span><span class="lbl-2">Márgenes</span></button>
+                <button class="btn-ribbon big"><span class="icon">📄</span><span class="lbl-2">Orientación</span></button>
+                <button class="btn-ribbon big"><span class="icon">📋</span><span class="lbl-2">Tamaño</span></button>
+                <button class="btn-ribbon big highlight"><span class="icon">▦</span><span class="lbl-2">Columnas</span></button>
+                <span class="arrow-pointer" style="top:80px;right:14px">⬆</span>
+              </div>
+              <div class="ribbon-group-label">Configurar página</div>
+            </div>
+          </div>
+          <div class="word-doc">
+            <div style="font-size:13px;font-weight:700;text-align:center;color:var(--mar);margin-bottom:10px">MIS 10 TIPS DE SUPERVIVENCIA</div>
+            <div class="col-mock">
+              <ul>
+                <li><span style="color:var(--fuc)">▸</span> Lápiz extra siempre</li>
+                <li><span style="color:var(--fuc)">▸</span> Repasa antes del examen</li>
+                <li><span style="color:var(--fuc)">▸</span> Toma mucha agua</li>
+                <li><span style="color:var(--fuc)">▸</span> Pregunta tus dudas</li>
+                <li><span style="color:var(--fuc)">▸</span> Haz amigos</li>
+              </ul>
+              <ul>
+                <li><span style="color:var(--fuc)">▸</span> Apunta tareas</li>
+                <li><span style="color:var(--fuc)">▸</span> Duerme 8 horas</li>
+                <li><span style="color:var(--fuc)">▸</span> Desayuna bien</li>
+                <li><span style="color:var(--fuc)">▸</span> Sé amable</li>
+                <li><span style="color:var(--fuc)">▸</span> Sonríe siempre</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:2px dashed var(--fuc);border-radius:10px;padding:12px;margin:14px 0;text-align:center;font-size:12px;line-height:1.6">
+          <b style="color:var(--fuc)">Menú que aparece:</b><br>
+          ☐ Una &nbsp;<b style="background:var(--fuc);color:#fff;padding:2px 8px;border-radius:4px">☑ Dos ←</b>&nbsp; ☐ Tres &nbsp; ☐ Izquierda &nbsp; ☐ Derecha
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li><b>Selecciona</b> SOLO los tips (sin el título)</li>
+            <li>Haz clic en la pestaña <span class="word-key">Diseño de página</span></li>
+            <li>Haz clic en el botón <span class="word-key">▦ Columnas</span></li>
+            <li>En el menú que aparece, elige <span class="word-key">Dos</span></li>
+            <li>¡Listo! Word divide automáticamente tus tips en 2 columnas</li>
+          </ol>
+        </div>
+
+        <div class="tip-wrobit">
+          <div class="ico">💡</div>
+          <div>
+            <h5>TIP DE WROBIT</h5>
+            <p>Si una columna queda muy larga y la otra muy corta, ponte al final del último tip de la columna larga y ve a <b>Diseño de página → Saltos → Columna</b>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-nav" onclick="goToStep(2)">← Página 2</button>
+      <button class="btn-nav primary" onclick="goToStep(4)">Siguiente: Página 4 (Datos) →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       STEP 4 — DATOS CURIOSOS
+  ════════════════════════════════════════ -->
+  <div class="section" id="sec-4">
+    <div class="page-intro">
+      <div class="pi-icon" style="background:linear-gradient(135deg,#059669,#0ea672)">4</div>
+      <div class="pi-text">
+        <h2>Página 4: Datos Curiosos con Imágenes</h2>
+        <p>Datos sorprendentes con imágenes al lado, cada uno enmarcado para que se vea como una tarjeta.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4.1: ESCRIBIR DATOS -->
+    <div class="step-card">
+      <div class="step-head">
+        <div class="num">1</div>
+        <div>
+          <h3>Escribir 3 o 4 datos curiosos</h3>
+          <p>Datos sorprendentes sobre la escuela o aprender</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="word-doc" style="margin:0 0 14px 0;border-radius:8px">
+          <div style="font-size:14px;font-weight:700;text-align:center;color:var(--mar);margin-bottom:14px">DATOS CURIOSOS QUE NO SABÍAS</div>
+          <div style="font-size:11px;line-height:1.7;color:#333">
+            <p style="margin:8px 0"><b>1.</b> El cerebro humano puede almacenar 2.5 millones de gigabytes de información — más que cualquier computadora.</p>
+            <p style="margin:8px 0"><b>2.</b> Leer 20 minutos al día equivale a 1.8 millones de palabras al año.</p>
+            <p style="margin:8px 0"><b>3.</b> Escribir a mano ayuda a recordar mejor que escribir en computadora.</p>
+            <p style="margin:8px 0"><b>4.</b> El olor de los libros viejos te puede hacer feliz — está demostrado.</p>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>EJEMPLOS DE DATOS</div>
+          <ol>
+            <li>Escribe <b>3 o 4 datos</b> sorprendentes</li>
+            <li>Pueden ser sobre el cuerpo, los estudios, los libros, la naturaleza...</li>
+            <li>Numéralos: 1, 2, 3, 4</li>
+            <li>Cada dato debe ser <b>corto</b> (1-2 oraciones)</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 4.2: INSERTAR IMAGEN -->
+    <div class="step-card">
+      <div class="step-head">
+        <div class="num">2</div>
+        <div>
+          <h3>Agregar una imagen a cada dato</h3>
+          <p>Una imagen relacionada al lado del texto</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="word-app">
+          <div class="word-titlebar">
+            <span>📄 Mi Guía - Word</span>
+            <div class="actions"><span></span><span></span><span></span></div>
+          </div>
+          <div class="word-tabs">
+            <div class="word-tab">Inicio</div>
+            <div class="word-tab active highlight">Insertar</div>
+            <div class="word-tab">Diseño</div>
+          </div>
+          <div class="word-ribbon">
+            <div class="ribbon-group">
+              <div class="ribbon-group-content">
+                <button class="btn-ribbon big"><span class="icon">⊞</span><span class="label">Tabla</span></button>
+              </div>
+              <div class="ribbon-group-label">Tablas</div>
+            </div>
+            <div class="ribbon-group" style="position:relative">
+              <div class="ribbon-group-content">
+                <button class="btn-ribbon big highlight"><span class="icon">🖼️</span><span class="label">Imágenes</span></button>
+                <button class="btn-ribbon big"><span class="icon">🌐</span><span class="lbl-2">En línea</span></button>
+                <span class="arrow-pointer" style="top:80px;left:14px">⬆</span>
+              </div>
+              <div class="ribbon-group-label">Ilustraciones</div>
+            </div>
+          </div>
+          <div class="word-doc">
+            <div style="font-size:13px;font-weight:700;text-align:center;color:var(--mar);margin-bottom:10px">DATOS CURIOSOS</div>
+            <div style="display:flex;align-items:center;gap:12px;border:1px solid #ddd;border-radius:6px;padding:8px;margin:6px 0">
+              <div style="font-size:32px">🧠</div>
+              <div style="font-size:11px;line-height:1.5"><b>1.</b> El cerebro humano puede almacenar 2.5 millones de gigabytes.</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;border:1px solid #ddd;border-radius:6px;padding:8px;margin:6px 0">
+              <div style="font-size:32px">📖</div>
+              <div style="font-size:11px;line-height:1.5"><b>2.</b> Leer 20 min al día = 1.8 millones de palabras al año.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li>Pon el <b>cursor</b> al inicio del primer dato</li>
+            <li>Pestaña <span class="word-key">Insertar</span> → <span class="word-key">🖼️ Imágenes</span></li>
+            <li>Busca palabras como "cerebro", "libro", "lápiz" según tu dato</li>
+            <li>Elige una imagen y presiona <b>Insertar</b></li>
+            <li>Repite para cada dato (3 o 4 imágenes en total)</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 4.3: AJUSTAR IMAGEN -->
+    <div class="step-card">
+      <div class="step-head fuc">
+        <div class="num">3</div>
+        <div>
+          <h3>¡IMPORTANTE! Ajustar la imagen al texto</h3>
+          <p>Sin esto, las imágenes quedan feas y desordenadas</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p style="font-size:14px;line-height:1.6;margin-bottom:10px">Cuando insertas una imagen, Word la pone "<b>en línea</b>" y se ve mal. Hay que cambiarle el ajuste para que el texto la rodee.</p>
+
+        <div style="background:#FFF8E6;border:2px solid var(--amb);border-radius:10px;padding:14px;margin:12px 0">
+          <div style="font-size:12px;font-weight:700;color:var(--mar);margin-bottom:8px">Cuando haces clic en la imagen, aparece este botón al lado:</div>
+          <div style="display:flex;align-items:center;gap:14px;background:#fff;padding:10px;border-radius:8px">
+            <div style="font-size:36px">🖼️</div>
+            <div style="font-size:24px;color:var(--fuc);animation:pulse 1.4s infinite;background:#FFE8F1;padding:6px 10px;border-radius:6px;border:2px solid var(--fuc)">⌨</div>
+            <div style="font-size:11px;color:#666">← Ese ícono es "Opciones de diseño"</div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px;margin:10px 0">
+          <div style="font-size:12px;font-weight:700;color:var(--mar);margin-bottom:8px">Menú que aparece al hacer clic:</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:11px">
+            <div style="background:#f5f5f5;padding:8px;border-radius:6px;text-align:center">📄<br>En línea<br><span style="color:#888;font-size:9px">(NO usar)</span></div>
+            <div style="background:#FFE8F1;border:2px solid var(--fuc);padding:8px;border-radius:6px;text-align:center;animation:pulse 1.4s infinite">▦<br><b>Cuadrado</b><br><span style="color:var(--fuc);font-size:9px">USAR ESTE ✓</span></div>
+            <div style="background:#f5f5f5;padding:8px;border-radius:6px;text-align:center">▤<br>Estrecho</div>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li>Haz <b>clic</b> sobre la imagen una vez</li>
+            <li>Aparece un pequeño <b>menú</b> al lado de la imagen (con un ícono ⌨)</li>
+            <li>Haz clic en ese ícono — aparecen las <b>Opciones de diseño</b></li>
+            <li>Elige <span class="word-key">Cuadrado</span> o <span class="word-key">Estrecho</span></li>
+            <li>Ahora puedes <b>arrastrar</b> la imagen junto al texto del dato</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 4.4: BORDES -->
+    <div class="step-card">
+      <div class="step-head pur">
+        <div class="num">4</div>
+        <div>
+          <h3>Ponerle borde a cada dato</h3>
+          <p>Para que se vea como una tarjeta</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="word-app">
+          <div class="word-titlebar">
+            <span>📄 Mi Guía - Word</span>
+            <div class="actions"><span></span><span></span><span></span></div>
+          </div>
+          <div class="word-tabs">
+            <div class="word-tab active highlight">Inicio</div>
+            <div class="word-tab">Insertar</div>
+            <div class="word-tab">Diseño</div>
+          </div>
+          <div class="word-ribbon">
+            <div class="ribbon-group">
+              <div class="ribbon-group-content">
+                <button class="btn-ribbon row"><b>N</b></button>
+                <button class="btn-ribbon row"><i>K</i></button>
+              </div>
+              <div class="ribbon-group-label">Fuente</div>
+            </div>
+            <div class="ribbon-group" style="position:relative">
+              <div class="ribbon-group-content" style="max-width:200px">
+                <button class="btn-ribbon row">≡•</button>
+                <button class="btn-ribbon row">1.≡</button>
+                <button class="btn-ribbon row">≡</button>
+                <button class="btn-ribbon row highlight" title="Bordes">⬚</button>
+                <span class="arrow-pointer" style="top:38px;right:18px">⬆</span>
+              </div>
+              <div class="ribbon-group-label">Párrafo</div>
+            </div>
+          </div>
+          <div class="word-doc">
+            <div style="font-size:13px;font-weight:700;text-align:center;color:var(--mar);margin-bottom:10px">DATOS CURIOSOS</div>
+            <div style="display:flex;align-items:center;gap:12px;border:2px solid var(--cel);border-radius:8px;padding:10px;margin:6px 0;background:#f0fbff">
+              <div style="font-size:36px">🧠</div>
+              <div style="font-size:11px;line-height:1.5"><b>1.</b> El cerebro humano puede almacenar 2.5 millones de gigabytes.</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;border:2px solid var(--fuc);border-radius:8px;padding:10px;margin:6px 0;background:#fff0f7">
+              <div style="font-size:36px">📖</div>
+              <div style="font-size:11px;line-height:1.5"><b>2.</b> Leer 20 min al día = 1.8 millones de palabras al año.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div class="sl-title"><div class="ico">👆</div>SIGUE ESTOS PASOS</div>
+          <ol>
+            <li>Selecciona el párrafo del primer dato (el texto, no la imagen)</li>
+            <li>Pestaña <span class="word-key">Inicio</span> → grupo <b>Párrafo</b></li>
+            <li>Busca el botón de <span class="word-key">⬚ Bordes</span> (cuadrado con líneas)</li>
+            <li>Haz clic en la flechita y elige <span class="word-key">Bordes y sombreado</span></li>
+            <li>Elige el <b>estilo</b> (línea, doble, punteada), <b>color</b> y <b>grosor</b></li>
+            <li>En "Aplicar a:" elige <b>Párrafo</b> y presiona <span class="word-key">Aceptar</span></li>
+            <li>Repite con cada dato — usa colores diferentes para que se vea variado</li>
+          </ol>
+        </div>
+
+        <div class="tip-wrobit">
+          <div class="ico">🎉</div>
+          <div>
+            <h5>¡FELICIDADES, TERMINASTE!</h5>
+            <p>Ya tienes tus 4 páginas listas. <b>Guarda tu archivo</b> con Ctrl + G y entrégalo a tu profe. Si quieres, también puedes exportarlo a PDF: <b>Archivo → Guardar como → tipo: PDF</b>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="try-section">
+      <h4>🏆 ¡COMPLETASTE LA GUÍA!</h4>
+      <p>Tu Guía de Supervivencia Escolar tiene 4 páginas con todo lo aprendido:<br>
+      <b>Formato + Imagen + Bordes + Tabla + Viñetas + Columnas + Bordes de párrafo</b></p>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-nav" onclick="goToStep(3)">← Página 3</button>
+      <button class="btn-nav primary" onclick="goToStep(0)">🏠 Volver al inicio</button>
+    </div>
+  </div>
+
+</div><!-- /outer -->
+
+<script>
+function goToStep(n){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('show'));
+  document.querySelectorAll('.prog-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+n).classList.add('show');
+  const stepEl = document.querySelector('.prog-step[data-step="'+n+'"]');
+  if(stepEl) stepEl.classList.add('active');
+  // Mark previous as done
+  for(let i=0;i<n;i++){
+    const el = document.querySelector('.prog-step[data-step="'+i+'"]');
+    if(el && i>0) el.classList.add('done');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
